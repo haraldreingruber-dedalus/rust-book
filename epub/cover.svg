@@ -103,16 +103,18 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.70000005ex;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
-       x="381.63098"
+       x="413.38147"
        y="132.42915"
-       id="text867"><tspan
+       id="text867"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
          sodipodi:role="line"
          id="tspan865"
-         x="381.63098"
+         x="413.38147"
          y="132.42915"
          style="font-size:21.16666603px;line-height:1.70000005ex;text-align:end;text-anchor:end;fill:#aa4400;stroke-width:0.26458332">Steve Klabnik and Carol Nichols</tspan><tspan
          sodipodi:role="line"
-         x="381.63098"
+         x="413.38147"
          y="150.76602"
          style="font-size:15.875px;line-height:2.70000005ex;text-align:end;text-anchor:end;fill:#aa4400;stroke-width:0.26458332"
          id="tspan869">with contributions from the community</tspan></text>
