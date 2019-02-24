@@ -35,6 +35,7 @@ Look at the generated *Cargo.toml* file:
 name = "guessing_game"
 version = "0.1.0"
 authors = ["Your Name <you@example.com>"]
+edition = "2018"
 
 [dependencies]
 ```
@@ -156,9 +157,10 @@ let foo = bar;
 
 This line creates a new variable named `foo` and binds it to the value of the
 `bar` variable. In Rust, variables are immutable by default. We’ll be
-discussing this concept in detail in the “Variables and Mutability” section in
-Chapter 3. The following example shows how to use `mut` before the variable
-name to make a variable mutable:
+discussing this concept in detail in the [“Variables and Mutability”]
+[variables-and-mutability]<!-- ignore --> section in Chapter 3. The following
+example shows how to use `mut` before the variable name to make a variable
+mutable:
 
 ```rust,ignore
 let foo = 5; // immutable
@@ -191,8 +193,8 @@ To summarize, the `let mut guess = String::new();` line has created a mutable
 variable that is currently bound to a new, empty instance of a `String`. Whew!
 
 Recall that we included the input/output functionality from the standard
-library with `use std::io;` on the first line of the program. Now we’ll call an
-associated function, `stdin`, on `io`:
+library with `use std::io;` on the first line of the program. Now we’ll call
+the `stdin` function from the `io` module:
 
 ```rust,ignore
 io::stdin().read_line(&mut guess)
@@ -472,9 +474,9 @@ which will ignore the *Cargo.lock* file and figure out all the latest versions
 that fit your specifications in *Cargo.toml*. If that works, Cargo will write
 those versions to the *Cargo.lock* file.
 
-But by default, Cargo will only look for versions larger than `0.3.0` and
-smaller than `0.4.0`. If the `rand` crate has released two new versions,
-`0.3.15` and `0.4.0`, you would see the following if you ran `cargo update`:
+But by default, Cargo will only look for versions greater than `0.3.0` and less
+than `0.4.0`. If the `rand` crate has released two new versions, `0.3.15` and
+`0.4.0`, you would see the following if you ran `cargo update`:
 
 ```text
 $ cargo update
@@ -539,18 +541,14 @@ fn main() {
 <span class="caption">Listing 2-3: Adding code to generate a random
 number</span>
 
-First, we add a line that lets Rust know we’ll be using the `rand` crate as an
-external dependency. This also does the equivalent of calling `use rand`, so
-now we can call anything in the `rand` crate by placing `rand::` before it.
-
-Next, we add another `use` line: `use rand::Rng`. The `Rng` trait defines
+First, we add a `use` line: `use rand::Rng`. The `Rng` trait defines
 methods that random number generators implement, and this trait must be in
 scope for us to use those methods. Chapter 10 will cover traits in detail.
 
-Also, we’re adding two more lines in the middle. The `rand::thread_rng` function
+Next, we’re adding two lines in the middle. The `rand::thread_rng` function
 will give us the particular random number generator that we’re going to use:
 one that is local to the current thread of execution and seeded by the
-operating system. Next, we call the `gen_range` method on the random number
+operating system. Then we call the `gen_range` method on the random number
 generator. This method is defined by the `Rng` trait that we brought into
 scope with the `use rand::Rng` statement. The `gen_range` method takes two
 numbers as arguments and generates a random number between them. It’s inclusive
@@ -565,10 +563,10 @@ and `101` to request a number between 1 and 100.
 > other functionality in the `rand` crate, for example, run `cargo doc --open`
 > and click `rand` in the sidebar on the left.
 
-The second line that we added to the code prints the secret number. This is
-useful while we’re developing the program to be able to test it, but we’ll
-delete it from the final version. It’s not much of a game if the program prints
-the answer as soon as it starts!
+The second line that we added to the middle of the code prints the secret
+number. This is useful while we’re developing the program to be able to test
+it, but we’ll delete it from the final version. It’s not much of a game if the
+program prints the answer as soon as it starts!
 
 Try running the program a few times:
 
@@ -681,7 +679,7 @@ Could not compile `guessing_game`.
 
 The core of the error states that there are *mismatched types*. Rust has a
 strong, static type system. However, it also has type inference. When we wrote
-`let mut guess = String::new();`, Rust was able to infer that `guess` should be
+`let mut guess = String::new()`, Rust was able to infer that `guess` should be
 a `String` and didn’t make us write the type. The `secret_number`, on the other
 hand, is a number type. A few number types can have a value between 1 and 100:
 `i32`, a 32-bit number; `u32`, an unsigned 32-bit number; `i64`, a 64-bit
@@ -691,8 +689,8 @@ to infer a different numerical type. The reason for the error is that Rust
 cannot compare a string and a number type.
 
 Ultimately, we want to convert the `String` the program reads as input into a
-real number type so we can compare it numerically to the guess. We can do that
-by adding the following two lines to the `main` function body:
+real number type so we can compare it numerically to the secret number. We can
+do that by adding the following two lines to the `main` function body:
 
 <span class="filename">Filename: src/main.rs</span>
 
@@ -760,8 +758,9 @@ comparison will be between two values of the same type!
 The call to `parse` could easily cause an error. If, for example, the string
 contained `A👍%`, there would be no way to convert that to a number. Because it
 might fail, the `parse` method returns a `Result` type, much as the `read_line`
-method does (discussed earlier in “Handling Potential Failure with the Result
-Type”). We’ll treat this `Result` the same way by using the `expect` method
+method does (discussed earlier in [“Handling Potential Failure with the
+`Result` Type”](#handling-potential-failure-with-the-result-type)<!-- ignore
+-->). We’ll treat this `Result` the same way by using the `expect` method
 again. If `parse` returns an `Err` `Result` variant because it couldn’t create
 a number from the string, the `expect` call will crash the game and print the
 message we give it. If `parse` can successfully convert the string to a number,
@@ -823,12 +822,12 @@ and run the program again. Notice that there is a new problem because the
 program is doing exactly what we told it to do: ask for another guess forever!
 It doesn’t seem like the user can quit!
 
-The user could always halt the program by using the keyboard shortcut <span
+The user could always interrupt the program by using the keyboard shortcut <span
 class="keystroke">ctrl-c</span>. But there’s another way to escape this
-insatiable monster, as mentioned in the `parse` discussion in “Comparing the
-Guess to the Secret Number”: if the user enters a non-number answer, the
-program will crash. The user can take advantage of that in order to quit, as
-shown here:
+insatiable monster, as mentioned in the `parse` discussion in [“Comparing the
+Guess to the Secret Number”](#comparing-the-guess-to-the-secret-number)<!--
+ignore -->: if the user enters a non-number answer, the program will crash. The
+user can take advantage of that in order to quit, as shown here:
 
 ```text
 $ cargo run
@@ -932,7 +931,7 @@ match the `Err(_)` pattern in the second arm. The underscore, `_`, is a
 catchall value; in this example, we’re saying we want to match all `Err`
 values, no matter what information they have inside them. So the program will
 execute the second arm’s code, `continue`, which tells the program to go to the
-next iteration of the `loop` and ask for another guess. So effectively, the
+next iteration of the `loop` and ask for another guess. So, effectively, the
 program ignores all errors that `parse` might encounter!
 
 Now everything in the program should work as expected. Let’s try it:
@@ -1017,3 +1016,6 @@ variables, data types, and functions, and shows how to use them in Rust.
 Chapter 4 explores ownership, a feature that makes Rust different from other
 languages. Chapter 5 discusses structs and method syntax, and Chapter 6
 explains how enums work.
+
+[variables-and-mutability]:
+ch03-01-variables-and-mutability.html#variables-and-mutability

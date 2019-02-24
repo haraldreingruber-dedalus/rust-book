@@ -161,12 +161,12 @@ impl<'a, T> LimitTracker<'a, T>
 
         let percentage_of_max = self.value as f64 / self.max as f64;
 
-        if percentage_of_max >= 0.75 && percentage_of_max < 0.9 {
-            self.messenger.send("Warning: You've used up over 75% of your quota!");
-        } else if percentage_of_max >= 0.9 && percentage_of_max < 1.0 {
-            self.messenger.send("Urgent warning: You've used up over 90% of your quota!");
-        } else if percentage_of_max >= 1.0 {
+        if percentage_of_max >= 1.0 {
             self.messenger.send("Error: You are over your quota!");
+        } else if percentage_of_max >= 0.9 {
+             self.messenger.send("Urgent warning: You've used up over 90% of your quota!");
+        } else if percentage_of_max >= 0.75 {
+            self.messenger.send("Warning: You've used up over 75% of your quota!");
         }
     }
 }
@@ -419,7 +419,7 @@ enum List {
     Nil,
 }
 
-use List::{Cons, Nil};
+use crate::List::{Cons, Nil};
 use std::rc::Rc;
 use std::cell::RefCell;
 
@@ -455,9 +455,10 @@ can both refer to `a`, which is what we did in Listing 15-18.
 After we’ve created the lists in `a`, `b`, and `c`, we add 10 to the value in
 `value`. We do this by calling `borrow_mut` on `value`, which uses the
 automatic dereferencing feature we discussed in Chapter 5 (see the section
-“Where’s the `->` Operator?”) to dereference the `Rc<T>` to the inner
-`RefCell<T>` value. The `borrow_mut` method returns a `RefMut<T>` smart
-pointer, and we use the dereference operator on it and change the inner value.
+[“Where’s the `->` Operator?”][wheres-the---operator]<!-- ignore -->) to
+dereference the `Rc<T>` to the inner `RefCell<T>` value. The `borrow_mut`
+method returns a `RefMut<T>` smart pointer, and we use the dereference operator
+on it and change the inner value.
 
 When we print `a`, `b`, and `c`, we can see that they all have the modified
 value of 15 rather than 5:
@@ -481,3 +482,5 @@ inner value, the value is copied in and out of the `Cell<T>`. There’s also
 `Mutex<T>`, which offers interior mutability that’s safe to use across threads;
 we’ll discuss its use in Chapter 16. Check out the standard library docs for
 more details on the differences between these types.
+
+[wheres-the---operator]: ch05-03-method-syntax.html#wheres-the---operator

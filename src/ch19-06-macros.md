@@ -47,9 +47,9 @@ can define functions anywhere and call them anywhere.
 
 The most widely used form of macros in Rust are *declarative macros*. These are
 also sometimes referred to as “macros by example”, “`macro_rules!` macros”, or
-just plain “macros”. At their core, declarative macros allow you to write
-something similar to a Rust `match` expression. As discussed in Chapter 6,
-`match` expressions are control structures that take an expression, compare the
+just plain “macros”. At their core, declarative macros are written in a form
+similar to a Rust `match` expression. As discussed in Chapter 6, `match`
+expressions are control structures that take an expression, compare the
 resulting value of the expression to patterns, and then run the code associated
 with the matching pattern. Macros also compare a value to patterns that have
 code associated with them; in this situation, the value is the literal Rust
@@ -113,10 +113,10 @@ pattern matches, the associated block of code will be emitted. Given that this
 is the only pattern in this macro, there is only one valid way to match; any
 other will be an error. More complex macros will have more than one arm.
 
-Valid pattern syntax in macro definitions is different than the pattern syntax
+Valid pattern syntax in macro definitions is different from the pattern syntax
 covered in Chapter 18 because macro patterns are matched against Rust code
 structure rather than values. Let’s walk through what the pieces of the pattern
-in Listing D-1 mean; for the full macro pattern syntax, see [the reference].
+in Listing 19-36 mean; for the full macro pattern syntax, see [the reference].
 
 [the reference]: ../reference/macros.html
 
@@ -327,12 +327,10 @@ won’t compile until we add a definition for the `impl_hello_macro` function.
 <span class="filename">Filename: hello_macro_derive/src/lib.rs</span>
 
 <!--
-This usage of `extern crate` is required for the moment with the 1.31 code
-that's currently rustc 1.31.0-beta.4 (04da282bb 2018-11-01), see:
-
-- https://github.com/rust-lang/rust/issues/54418
-- https://github.com/rust-lang/rust/pull/54658
-- https://github.com/rust-lang/rust/issues/55599
+This usage of `extern crate` is required for the moment with 1.31.0, see:
+https://github.com/rust-lang/rust/issues/54418
+https://github.com/rust-lang/rust/pull/54658
+https://github.com/rust-lang/rust/issues/55599
 -->
 
 ```rust,ignore
@@ -485,7 +483,7 @@ the name of the annotated type.
 
 The `stringify!` macro used here is built into Rust. It takes a Rust
 expression, such as `1 + 2`, and at compile time turns the expression into a
-string literal, such as `"1 + 2"`. This is different than `format!` or
+string literal, such as `"1 + 2"`. This is different from `format!` or
 `println!`, which evaluate the expression and then turn the result into a
 `String`. There is a possibility that the `#name` input might be an expression
 to print literally, so we use `stringify!`. Using `stringify!` also saves an
