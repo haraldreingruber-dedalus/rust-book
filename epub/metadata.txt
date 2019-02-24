@@ -8,6 +8,6 @@ creator:
 cover-image: ../epub/cover.svg.png
 css: ../epub/style.css
 ibooks:
-  version: 0.0.1
+  version: 0.0.2
 ---
 
